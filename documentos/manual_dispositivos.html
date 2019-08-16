@@ -1,0 +1,520 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>Linguagens de Montagem - Manual de dispositivos</title>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8"> 
+    <!--link rel="stylesheet" type="text/css" href="http://www.ic.unicamp.br/~ranido/livrolm/css/style.css" /-->
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+
+</head>
+<body>
+    <div id="wrap">
+	    <div id="top_content">
+	        <div id="header">
+
+						<!-- rightheader -->
+						<div id="rightheader">
+								<p><br/>Livro da Série SBC/Editora Campus
+								</p> 
+						</div>
+						
+						<!-- topheader -->
+						<div id="topheader">
+							<h1 id="title">
+								<a href="#">Linguagens de Montagem</a>
+								<!--br/><span>&nbsp;</span-->
+							</h1>
+						</div>
+							
+						<!-- navigation -->
+						<div id="navigation">
+							<ul>
+								<li><a href="http://www.ic.unicamp.br/~ranido/livrolm">Principal</a></li>
+								<li><a href="http://www.ic.unicamp.br/~ranido/livrolm/ferramentas/">Ferramentas</a></li>
+								<li><a href="http://www.ic.unicamp.br/~ranido/livrolm/documentos/">Documentos</a></li>
+								<li><a href="http://www.ic.unicamp.br/~ranido/livrolm/transparencias/">Transparências</a></li>
+								<li><a href="http://www.ic.unicamp.br/~ranido/livrolm/autor.html">Sobre o autor</a></li>
+							</ul>	         
+						</div>
+						
+				</div>
+				<!-- header ends here -->
+				<div id="content">
+					<p id="whereami">
+						<a href="../">Principal</a> &gt;
+						<a href="index.html">Documentos</a> &gt
+						Manual de dispositivos
+					</p>
+
+
+<h1>Dispositivos de E/S para os simuladores</h1>
+
+
+<p>Os simuladores <span class="ttt">legsim</span> e <span class="ttt">armsim</span> permitem o uso de alguns
+dispositivos de entrada e saída, como botões e leds, para implementação
+de sistemas simulados.
+
+<p>O dispositivo Console, usado para ler e escrever caracteres,
+ é o único que é instalado com a opção &quot;-c&quot; da
+linha de comando. 
+Todos os outros dispositivos são instalados carregando um arquivo texto de descrição de dispositivos,
+usando a opção &quot;-d&quot; da linha de comando. No arquivo de descrição,
+linhas que se iniciam com o caractere `#' são ignoradas, e cada
+dispositivo é declarado em duas ou mais linhas, conforme descrito
+a seguir. Para cada dispositivo, a primeira linha indica o tipo
+dispositivo e o nome da janela em que ele será visualizado. As demais
+linhas indicam características do dispositivo, como portas e tipo de
+interrupção associados ao dispositivo.
+
+<h2>Console</h2>
+<p>O dispositivo Console emula um console (um terminal <i>tty</i>) de um sistema
+operacional e permite ler e escrever cadeias de caracteres. Para
+carregar o Console, o simulador deve ser executado com a opção &quot;-c&quot;
+na linha de comando. A figura abaixo mostra o
+Console, que é dividido em duas áreas: uma área de entrada, composta por uma única linha,
+e uma área de saída, cujo número de linhas pode ser ajustado pelo tamanho da janela do Console.
+
+<center>
+<img src="img/fig_panel_console.png"><br>
+Console
+</center>
+<p>&nbsp;
+</p>
+
+
+<p>A comunicação do processador com a console
+utiliza a convenção EABI para chamadas a sistema. São definidas três
+chamadas a sistema, <span class="ttt">read</span>, <span class="ttt">write</span> e <span class="ttt">exit</span>.
+
+<ul class=green>
+<li> <span class="ttt">read</span>, para ler uma cadeia de caracteres da entrada. <br> 
+  reg0 deve conter o valor 0 (descritor stdin) <br> 
+  reg1 deve conter o endereço inicial de um vetor onde serão armazenados os bytes lidos <br> 
+  reg2 deve conter o número de bytes a serem lidos <br> 
+  reg7 deve conter o valor 3 (tipo read).<br>
+  No retorno da chamada a sistema o registrador <span class="ttt">r0</span> contém o número de caracteres efetivamente lidos.
+<li> <span class="ttt">write</span>, para escrever uma cadeia de caracteres na saída <br> 
+  reg0 deve conter o valor 1 (descritor stdout) <br> 
+  reg1 deve conter o endereço inicial da cadeia <br> 
+  reg2 deve conter o número de bytes a serem escritos <br> 
+  reg7 deve conter o valor 4 (tipo write)
+<li> <span class="ttt">exit</span>, para terminar a execução do programa <br> 
+  reg0 deve conter o valor retornado pelo programa (zero se o programa terminou normalmente, ou indicador de erro caso contrário) <br> 
+  reg7 deve conter o valor 1 (tipo exit)
+</ul>
+
+   
+<p>As instruções de chamadas a sistema devem ser executadas com valores especiais para
+serem interceptadas pelo simulador. No LEG, deve ser utilizada a instrução 
+
+<pre>
+    sys  0x55
+</pre>
+
+<p>e no ARM deve ser utilizada a instrução
+
+<pre>
+    svc  0x55
+</pre>
+
+  
+<p>Essas instruções não disparam o mecanismo de interrupção do simulador, mas executam os serviços
+de console. Elas não podem ser utilizadas para simular interrupções de usuário, já
+que são tratadas de forma especial pelo simulador.
+
+<h2>Botões</h2>
+Botões são dispositivos de leitura apenas. Existem dois tipos de botões disponíveis:
+<ul class="green">
+<li> <it>liga/desliga</it>, que fisicamente tem duas posições, e inverte de posição a
+cada vez que é pressionado.
+<li> <it>tecla</it>, que também tem duas posições, mas normalmente fica em uma única
+posição (desligado), mudando para a outra posição (ligado) apenas enquanto pressionado.
+</ul>
+
+<p>
+Um botão tem apenas uma porta de entrada. Uma leitura na porta
+do botão retorna um byte de estado, com o bit menos significativo igual a 1 se o botão
+está ligado, ou 0 caso contrário. Botões são definidos em um painel de botões
+no arquivo de dispositivos. Até oito botões podem ser criados em um painel de botões.
+O formato da descrição de um painel de botões é
+
+
+<pre>
+%buttons NOME_PAINEL
+NOME PORTA INTERRUPÇÃO TIPO
+</pre>
+
+<p>onde
+<ul class="green">
+<li> <span class="ttt">NOME_PAINEL</span> é um nome que será usado na janela do painel.
+<li> <span class="ttt">NOME</span> é o nome do botão.
+<li> <span class="ttt">PORTA</span> é o endereço da porta do botão.
+<li> <span class="ttt">INTERRUPÇÃO</span> é o tipo da interrupção associada ao botão, gerada
+a cada vez que o botão é pressionado. Se o
+dispositivo não usa interrupção este valor deve ser zero.
+<li> <span class="ttt">TIPO</span> é o tipo de botão, devendo ser a letra <span class="ttt">T</span>
+  (do inglês <it>toggle</it> para o tipo liga/desliga ou <span class="ttt">P</span> (do inglês
+  <it>push</it>) para o tipo tecla.
+</ul>
+
+
+A Figura abaixo mostra um exemplo de arquivo de configuração
+de dispositivos com um painel de botões, e o painel de botões correspondente.
+
+<center>
+<table width="80%">
+<tr><td>
+<pre>
+%buttons Controle
+Conta 0x40 0x10 P
+Liga  0x41 0x00 T
+</pre>
+</td>
+<td align="center">
+<img src="img/fig_panel_buttons.png" width="200px"
+</td>
+</tr>
+<tr><td>(a) arquivo de configuração</td><td align="center">(b) painel criado</td>
+</tr>
+</table>
+</center>
+<p>&nbsp;
+</p>
+
+<h2>Teclado</h2>
+<p>O dispositivo teclado tem doze teclas, com dígitos de 0 a 9, mais os símbolos `*' e `\#'.
+Ele tem duas portas de leitura, a porta de estado e a porta de dados.
+O formato da descrição de um painel de botões é
+
+
+<pre>
+%keyboard NOME_PAINEL
+PORTA_DADOS PORTA_ESTADO INTERRUPÇÃO
+</pre>
+  
+<p>onde
+<ul class="green">
+<li> <span class="ttt">NOME_PAINEL</span> é um nome que será usado na janela do
+  painel.
+<li> <span class="ttt">PORTA_DADOS</span> é o endereço da porta de dados do botão,
+  de leitura apenas. Uma leitura retorna um byte com o valor da última
+  tecla pressionada. O valor retornado é um inteiro entre 0 e 11
+  (valor 10 indica a tecla `*', valor 11 indica a tecla `\#').
+<li> <span class="ttt">PORTA_ESTADO</span> é o endereço da porta de estado do botão,
+  de leitura apenas. Uma leitura nessa porta retorna um byte de estado. O bit~0
+  (bit menos significativo) do byte de estado indica se uma tecla foi
+  pressionada e não foi ainda lida (o valor~1 indica que tecla foi
+  pressionada). O bit 1 do byte de estado indica se houve erro de
+  atropelamento (em inglês, <it>overrun</it>), ou seja um dado foi
+  perdido porque antes que tenha sido lido outra tecla foi pressionada
+  (o valor~1 indica que houve erro). O estado do teclado é zerado a cada
+  leitura na porta de dados ou de estado.
+<li> <span class="ttt">INTERRUPÇÃO</span> é o tipo da interrupção associada ao
+  teclado, gerada a cada tecla pressionada. Se o dispositivo não
+  usa interrupção este valor deve ser zero.
+</ul>
+
+  
+<p>Um único teclado pode ser colocado em cada painel de teclado.
+A Figura abaixo mostra um exemplo de arquivo de configuração
+de dispositivos com um painel de teclado, e a janela correspondente.
+
+<center>
+<table width="80%">
+<tr><td>
+<pre>
+    %keyboard Teclado
+    0x80 0x81 0x09
+</pre>
+</td>
+<td align="center">
+<img src="img/fig_panel_keyboard.png" width="180px"
+</td>
+</tr>
+<tr><td>(a) arquivo de configuração</td><td align="center">(b) painel criado</td>
+</tr>
+</table>
+</center>
+<p>&nbsp;
+</p>
+
+<h2>Temporizador</h2>
+
+<p>O temporizador é um dispositivo que gera uma interrupção a cada
+intervalo de tempo programado.  O temporizador tem apenas uma porta
+de dados, que é usada para programar o intervalo de tempo.
+
+   
+O formato de descrição de um temporizador é:
+<pre>
+%timer
+PORTA INTERRUPÇÃO
+</pre>
+
+<p>onde
+<ul class="green">
+<li> <span class="ttt">PORTA</span> é o endereço da porta de dados do temporizador,
+  usada para programar o intervalo de tempo. O intervalo de tempo é
+  dado como um valor inteiro, de 32 bits, em milisegundos.  Se o
+  intervalo de tempo é zero, o temporizador é desativado.  Caso
+  contrário uma interrupção é gerada a cada vez que o temporizador
+  expira.  O temporizador é automaticamente reinicializado com o valor
+  programado a cada vez que expira.
+<li> <span class="ttt">INTERRUPÇÃO</span> é o tipo da interrupção associada ao temporizador.
+</ul>
+
+
+
+A Figura abaixo mostra um exemplo de arquivo de configuração
+de um temporizador, associado à porta <span class="ttt">0x90</span> e à interrupção de tipo <span class="ttt">0x20</span>.
+
+<center>
+<table width="80%">
+<tr><td>
+<pre>
+       %timer
+       0x90 0x20
+</pre>
+</td>
+<tr><td>(a) arquivo de configuração</td>
+</tr>
+</table>
+</center>
+<p>&nbsp;
+</p>
+
+
+<h2>LEDs</h2>
+Leds podem ser de três cores, vermelho, amarelo e verde, e são
+definidos em um painel de leds. O formato
+da descrição de um painel de leds é
+
+<pre>
+%leds NOME_PAINEL
+LEDS PORTA_DADOS
+</pre>
+  
+<p>onde
+<ul class="green">
+<li> <span class="ttt">NOME_PAINEL</span> é um nome que será usado na janela do painel.
+<li> <span class="ttt">LEDS</span> é uma sequência de letras que especifica os leds do painel. Cada letra corresponde a um led,
+e pode ser
+<span class="ttt">r</span> (vermelho), <span class="ttt">g</span>
+(verde), <span class="ttt">y</span> (amarelo)
+ou <span class="ttt">b</span> (azul). Cada led é associado a um bit na
+palavra de dados. O led descrito pela letra mais à esquerda em LEDS
+corresponde ao led mais significativo do valor, que aparecerá mais à
+esquerda no painel de leds.
+<li> <span class="ttt">PORTA_DADOS</span> é o endereço da porta de dados do painel de leds, de escrita apenas. 
+A escrita de um valor na porta de dados liga ou desliga os leds correspondentes.
+</ul>
+
+  
+<p>Até oito leds podem ser colocados em cada painel de leds.
+A Figura abaixo mostra um exemplo de arquivo de configuração
+de dispositivos com um painel com cinco leds, e a janela correspondente.
+
+<center>
+<table width="80%">
+<tr><td>
+<pre>
+      %leds Sinais
+      rrygg 0x41
+</pre>
+</td>
+<td align="center">
+<img src="img/fig_panel_leds.png" width="200px"
+</td>
+</tr>
+<tr><td>(a) arquivo de configuração</td><td align="center">(b) painel criado</td>
+</tr>
+</table>
+</center>
+<p>&nbsp;
+</p>
+
+<h2>Mostrador de sete segmentos</h2>
+
+<p>O mostrador de sete segmentos é um dispositivo de escrita apenas que
+permite visualizar um dígito decimal ou outros símbolos simples,
+conforme a Figura (a) abaixo.
+  Os segmentos do
+mostrador, mais o ponto decimal, podem ser individualmente ligados ou
+desligados escrevendo um byte de dados na porta do mostrador.
+Cada segmento corresponde a um bit no byte de dados,
+como indicado  na Figura (b) abaixo.  
+
+
+<center>
+<img src="img/fig_seg_display.png" width="370px">
+</center>
+
+<p>O formato
+da descrição de um painel de mostradores de sete segmentos é   
+
+<pre>
+%7segs NOME_PAINEL
+PORTA_DADOS1
+PORTA_DADOS2
+...
+PORTA_DADOS6
+</pre>
+  
+<p>onde
+<ul class="green">
+<li> <span class="ttt">NOME_PAINEL</span> é um nome que será usado na janela do painel.
+<li> <span class="ttt">PORTA_DADOS1</span>
+a <span class="ttt">PORTA_DADOS6</span> são os endereços das portas de
+dados dos mostradores de sete segmentos, de escrita apenas.  Até seis
+mostradores podem ser colocados num painel de mostradores. O mostrador
+mais à esquerda no painel é o primeiro da lista de mostradores, o
+mostrador mais à direita é o último da lista.  A escrita de um byte na
+porta de dados liga os segmentos correspondentes do mostrador.
+</ul>
+
+<p>A Figura abaixo mostra um exemplo de arquivo de configuração
+de dispositivos para um painel com dois mostradores, e a janela correspondente.
+
+<center>
+<table width="80%">
+<tr><td>
+<pre>
+    %7segs Relógio
+    0x21
+    0x22
+</pre>
+</td>
+<td align="center">
+<img src="img/fig_panel_7segs.png" width="170px"
+</td>
+</tr>
+<tr><td>(a) arquivo de configuração</td><td align="center">(b) painel criado</td>
+</tr>
+</table>
+</center>
+<p>&nbsp;
+</p>
+
+<h2>Controle deslizante</h2>
+
+Um controle deslizante é um dispositivo de leitura apenas, com o qual o usuário pode
+ajustar um valor de entrada deslizando um acionador.
+<p>O formato
+da descrição de um painel de controle deslizante
+
+<pre>
+%slider NOME_PAINEL
+PORTA_DADOS INTERRUPÇÃO VALOR_MIN VALOR_MAX VALOR
+</pre>
+  
+<p>onde
+<ul class="green">
+<li> <span class="ttt">NOME_PAINEL</span> é um nome que será usado na janela do painel.
+<li> <span class="ttt">PORTA_DADOS</span> é o endereço da porta de dados do controle deslizante, 
+<li> <span class="ttt">INTERRUPÇÃO</span> é o tipo da interrupção associada ao botão, gerada
+a cada vez que o botão é pressionado. Se o
+dispositivo não usa interrupção este valor deve ser zero.
+<li> <span class="ttt">VALOR_MIN</span> é o valor mínimo do controle.
+<li> <span class="ttt">VALOR_MAX</span> é o valor máximo do controle.
+<li> <span class="ttt">VALOR</span> é o valor inicial do controle.
+
+</ul>
+
+<p>Apenas um controle deslizante pode ser colocado em um painel. A Figura abaixo mostra um exemplo de arquivo de configuração
+de dispositivos para um painel com um controle deslizante, e a janela correspondente.
+
+<center>
+<table width="80%">
+<tr><td>
+<pre>
+    %slider Controle
+    0x91 6 0 100 50
+</pre>
+</td>
+<td align="center">
+<img src="img/fig_panel_slider.png" width="180px"
+</td>
+</tr>
+<tr><td>(a) arquivo de configuração</td><td align="center">(b) painel criado</td>
+</tr>
+</table>
+</center>
+<p>&nbsp;
+</p>
+
+<h2>LCD</h2>
+
+<p>O LCD é um dispositivo de cristal líquido, capaz de mostrar até
+quatro linhas de caracteres, com até 20 caracteres cada. O dispositivo
+implementado é compatível, em termos de configuração e operação, com
+o padrão usado em LCDs comerciais, como por exemplo o <a href="HD44780.pdf">Hitachi
+HD44780</a>.  O formato da descrição de um painel de LCD é:
+
+<pre>
+%lcd NOME_PAINEL
+PORTA_COMANDO PORTA_DADOS COR TAMANHO
+</pre>
+  
+<p>onde
+<ul class="green">
+<li> <span class="ttt">NOME_PAINEL</span> é um nome que será usado na janela do painel.
+<li> <span class="ttt">PORTA_COMANDOS</span> é o endereço da porta de comandos do LCD.
+<li> <span class="ttt">PORTA_DADOS</span> é o endereço da porta de dados do LCD.
+<li> <span class="ttt">COR</span> especifica a cor do LCD, e pode ser 
+<span class="ttt">blue</span> (azul), 
+<span class="ttt">green</span> (verde) ou
+<span class="ttt">amber</span> (laranja). 
+<li> <span class="ttt">TAMANHO</span> especifica a dimensão do LCD (número de caracteres
+em cada linha e número de linhas), e pode ser 
+<span class="ttt">16x2</span>, 
+<span class="ttt">20x2</span> ou 
+<span class="ttt">20x4</span>.
+</ul>
+
+<p>Apenas um LCD pode ser colocado em um painel. A Figura abaixo mostra um exemplo de arquivo de configuração
+de dispositivos para um painel com um LCD, e a janela correspondente.
+
+<center>
+<table width="80%">
+<tr><td>
+<pre>
+%lcd Mensagens
+0x60 0x61 blue 20x2
+</pre>
+</td>
+<td align="center">
+<img src="img/fig_panel_lcd.png" width="280px"
+</td>
+</tr>
+<tr><td>(a) arquivo de configuração</td><td align="center">(b) painel criado</td>
+</tr>
+</table>
+</center>
+<p>&nbsp;
+</p>
+
+
+				</div>
+
+	    </div>
+			<!-- here ends header + content ( topcontent ) -->
+			
+	    <!-- footer -->
+			<div id="footer">
+			<div id="footer_bg">
+			
+				<!-- right bottom link -->
+				<div id="design">
+				  <a href="http://www.ic.unicamp.br">Instituto de Computação</a>
+				</div>
+				
+				<!-- copyright -->
+				<p>
+				  <a href="http://www.unicamp.br">Universidade Estadual de Campinas (UNICAMP)</a>
+				</p>
+			
+			</div>
+			</div>
+</div>
+</body>
+</html>

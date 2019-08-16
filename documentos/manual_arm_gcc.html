@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>Linguagens de Montagem - Uso do simulador ARM com programas escritos em C</title>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8"> 
+    <link rel="stylesheet" type="text/css" href="..//css/style.css" />
+</head>
+<body>
+    <div id="wrap">
+	    <div id="top_content">
+	        <div id="header">
+
+						<!-- rightheader -->
+						<div id="rightheader">
+								<p><br/>Livro da Série SBC/Editora Campus
+								</p> 
+						</div>
+						
+						<!-- topheader -->
+						<div id="topheader">
+							<h1 id="title">
+								<a href="#">Linguagens de Montagem</a>
+								<!--br/><span>&nbsp;</span-->
+							</h1>
+						</div>
+							
+						<!-- navigation -->
+						<div id="navigation">
+						        <ul>
+								<li><a href="http://www.ic.unicamp.br/~ranido/livrolm">Principal</a></li>
+								<li><a href="http://www.ic.unicamp.br/~ranido/livrolm/ferramentas/">Ferramentas</a></li>
+								<li><a href="http://www.ic.unicamp.br/~ranido/livrolm/documentos/">Documentos</a></li>
+								<li><a href="http://www.ic.unicamp.br/~ranido/livrolm/transparencias/">Transparências</a></li>
+								<li><a href="http://www.ic.unicamp.br/~ranido/livrolm/autor.html">Sobre o autor</a></li>
+							</ul>	         
+						</div>
+						
+				</div>
+				<!-- header ends here -->
+				<div id="content">
+					<p id="whereami">
+						<a href="../">Principal</a> &gt;
+						<a href="index.html">Documentos</a> &gt;
+						Uso do simulador ARM com programas escritos em C
+					</p>
+					<h1>Uso do simulador ARM com programas escritos em C</h1>
+
+<p>Esta página descreve como usar o simulador ARM
+(<span class="ttt">armsim</span>) com programas escritos em C (usando o compilador gcc).
+
+<h2>Instalação do compilador gcc</h2>
+<p>Inicialmente, é necessário instalar em seu computador o pacote "gcc-arm-none-eabi", que
+contém o compilador gcc, bibliotecas e demais ferramentas. Esse pacote está disponível
+para Linux, Windows e MacOS, embora a forma de instalação seja um pouco distinta
+em cada um dos sistemas. 
+
+<p>Por exemplo, para instalar
+em seu computador o pacote "gcc-arm-none-eabi" no sistema operacional Linux, abra uma janela de terminal e digite:
+
+<code>$ sudo apt-get install gcc-arm-none-eabi
+</code>
+
+<h2>Arquivos auxiliares</h2>
+
+<p>Para o gcc compilar os programas corretamente, de forma a executar no simulador armsim, é necessário fornecer dois arquivos auxiliares:
+
+<ul class="green">
+<li><a href="libc/startup.s">startup.s</a>, que contém código de inicialização e
+<li><a href="libc/libnosys_gnu.c">libnosys_gnu.c</a>, que contém rotinas de systema.
+</ul>
+
+<p>Esses arquivos devem ser compilados e fornecidos no comando gcc. Os <a href="../ferramentas/exemplos_arm_gcc.zip">Exemplos de programas em C</a>
+contêm um diretório de nome <span class="ttt">libc</span> com esses dois arquivos já compilados para ARM.  
+
+<h2>Compilando e executando programas em C</h2>
+
+<p>Para compilar um programa de nome <span class="ttt">teste.c</span>, abra uma janela de terminal e digite o comando
+
+<code>$ arm-none-eabi-gcc -o teste teste.c startup.o libnosys_gnu.o -lm -nostartfiles -static
+</code>
+
+obtendo o executável de nome <span class="ttt">teste</span>. 
+
+
+<p>Para executar o programa no simulador, inicie o simulador, carregando o executável <span class="ttt">teste</span>, e inicie
+a simulação a partir do rótulo <span class="ttt">_init</span>. Por exemplo, digite o comando
+
+<code>$ armsim -l teste
+</code>
+
+<p>O simulador inicia e coloca na tela:
+
+<code>armsim - ARM simulator(v1.0)
+R. Anido/IC-Unicamp
+
+loading teste ... done
+
+armsim>
+</code>
+
+<p>Então, inicie a execução com o comando <span class="ttt">"g _init"</span>.
+
+
+					      <h2>Exemplos</h2>
+					      <ul class="green">
+						<li><a href="../ferramentas/exemplos_arm_gcc.zip">Exemplos de programas em C</a> (veja também <a href="../ferramentas/arm.html">Ferramentas ARM</a>)
+						</ul>
+
+
+
+
+
+
+				</div>
+
+	    </div>
+			<!-- here ends header + content ( topcontent ) -->
+			
+	    <!-- footer -->
+			<div id="footer">
+			<div id="footer_bg">
+			
+				<!-- right botttom link -->
+				<div id="design">
+				  <a href="http://www.ic.unicamp.br">Instituto de Computação</a>
+				</div>
+				
+				<!-- copyright -->
+				<p>
+				  <a href="http://www.unicamp.br">Universidade Estadual de Campinas (UNICAMP)</a>
+				</p>
+			
+			</div>
+			</div>
+</div>
+</body>
+</html>

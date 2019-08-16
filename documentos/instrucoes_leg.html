@@ -1,0 +1,309 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>Linguagens de Montagem -- Lista das instruções do processador LEG</title>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8"> 
+    <!--link rel="stylesheet" type="text/css" href="http://www.ic.unicamp.br/~ranido/livrolm/css/style.css" /-->
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+</head>
+<body>
+    <div id="wrap">
+	    <div id="top_content">
+	        <div id="header">
+
+						<!-- rightheader -->
+						<div id="rightheader">
+								<p><br/>Livro da Série SBC/Editora Campus
+								</p> 
+						</div>
+						
+						<!-- topheader -->
+						<div id="topheader">
+							<h1 id="title">
+								<a href="#">Linguagens de Montagem</a>
+								<!--br/><span>&nbsp;</span-->
+							</h1>
+						</div>
+							
+						<!-- navigation -->
+						<div id="navigation">
+							<ul>
+								<li><a href="http://www.ic.unicamp.br/~ranido/livrolm">Principal</a></li>
+								<li><a href="http://www.ic.unicamp.br/~ranido/livrolm/ferramentas/">Ferramentas</a></li>
+								<li><a href="http://www.ic.unicamp.br/~ranido/livrolm/documentos/">Documentos</a></li>
+								<li><a href="http://www.ic.unicamp.br/~ranido/livrolm/transparencias/">Transparências</a></li>
+								<li><a href="http://www.ic.unicamp.br/~ranido/livrolm/autor.html">Sobre o autor</a></li>
+							</ul>	         
+						</div>
+						
+				</div>
+				<!-- header ends here -->
+				<div id="content">
+					<p id="whereami">
+						<a href="../">Principal</a> &gt;
+						<a href="index.html">Documentos</a> &gt
+						Resumo das instruções do processador LEG
+					</p>
+
+					<h1>Lista das instruções do processador LEG</h1>
+					
+					<h3>Transferência de dados</h3>
+					<table cellpadding="0" cellspacing="0" border="0" width="100%" class="table">
+						<!-- table header -->
+						<tr class="table_header">
+							<td valign="middle" align="left" width="20%">Comando</td>
+							<td valign="middle" align="left">Operação</td>
+							<td valign="middle" align="center" width="15%">Flags</td>
+</tr><tr class="row1"><td>
+mov <i>rd,rf</i> </td><td> Copia registrador </td><td align="center"> -- </td>
+</tr><tr class="row2"><td>
+set <i>rd,expr8</i> </td><td> Carrega registrador com valor imediato 8 bits </td><td align="center"> -- </td>
+</tr><tr class="row1"><td>
+set <i>rd,expr32</i> </td><td> Carrega registrador com valor imediato 32 bits </td><td align="center"> -- </td>
+</tr><tr class="row2"><td>
+ld <i>rd,expr32<i> </td><td> Carrega registrador, endereçamento direto  </td><td align="center"> -- </td>
+</tr><tr class="row1"><td>
+ld <i>rd</i>, [<i>rf+expr8</i>] </td><td> Carrega registrador, endereçamento indireto por registrador  </td><td align="center"> -- </td>
+</tr><tr class="row2"><td>
+ldb <i>rd, expr32</i> </td><td> Carrega registrador com byte, endereçamento direto  </td><td align="center"> -- </td>
+</tr><tr class="row1"><td>
+ldb <i>rd</i>, [<i>rf+expr8</i>] </td><td> Carrega registrador com byte, endereçamento indireto por registrador  </td><td align="center"> -- </td>
+</tr><tr class="row2"><td>
+st <i>expr32,rf</i> </td><td> Armazena registrador, endereçamento direto  </td><td align="center"> -- </td>
+</tr><tr class="row1"><td>
+st [<i>rd+expr</i>], <i>rf</i> </td><td> Armazena registrador, endereçamento indireto por registrador </td><td align="center"> -- </td>
+</tr><tr class="row2"><td>
+stb <i>expr32,rf</i> </td><td> Armazena byte de registrador, endereçamento direto  </td><td align="center"> -- </td>
+</tr><tr class="row1"><td>
+stb [<i>rd+expr</i>], <i>rf</i> </td><td> Armazena byte de registrador, endereçamento indireto por registrador  </td><td align="center"> -- </td>
+</tr>
+</table>
+
+
+					<h3>Instruções Aritméticas</h3>
+					<table cellpadding="0" cellspacing="0" border="0" width="100%" class="table">
+						<!-- table header -->
+						<tr class="table_header">
+							<td valign="middle" align="left" width="20%">Comando</td>
+							<td valign="middle" align="left">Operação</td>
+							<td valign="middle" align="center" width="15%">Flags</td>
+</tr><tr class="row1"><td>
+add <i>d,expr8</i> </td><td> Soma registrador com valor imediato 8 bits  </td><td align="center"> CNVZ </td>
+</tr><tr class="row2"><td>
+add <i>rd,rf</i> </td><td> Soma registrador com registrador  </td><td align="center"> CNVZ </td>
+</tr><tr class="row1"><td>
+sub <i>rd,expr8</i> </td><td> Subtrai de registrador com valor imediato 8 bits  </td><td align="center"> CNVZ </td>
+</tr><tr class="row2"><td>
+sub <i>rd,rf</i> </td><td> Subtrai registrador de registrador  </td><td align="center"> CNVZ </td>
+</tr><tr class="row1"><td>
+cmp <i>rd,expr8</i> </td><td> Compara registrador com valor imediato 8 bits  </td><td align="center"> CNVZ </td>
+</tr><tr class="row2"><td>
+cmp <i>rd,rf</i> </td><td> Compara registrador com registrador  </td><td align="center"> CNVZ </td>
+</tr>
+</table>
+
+					<h3>Instruções Lógicas</h3>
+					<table cellpadding="0" cellspacing="0" border="0" width="100%" class="table">
+						<!-- table header -->
+						<tr class="table_header">
+							<td valign="middle" align="left" width="20%">Comando</td>
+							<td valign="middle" align="left">Operação</td>
+							<td valign="middle" align="center" width="15%">Flags</td>
+</tr><tr class="row1"><td>
+and <i>rd,rf</i> </td><td> E-lógico de registrador com registrador  </td><td align="center"> NZ <br> (C,V  &#8592; 0) </td>
+</tr><tr class="row2"><td>
+or <i>rd,rf</i> </td><td> OU-lógico de registrador com registrador  </td><td align="center"> NZ <br> (C,V  &#8592; 0)</td>
+</tr><tr class="row1"><td>
+xor <i>rd,rf</i> </td><td> OU-Exclusivo-lógico de registrador com registrador  </td><td align="center"> NZ <br> (C,V  &#8592; 0)</td>
+</tr><tr class="row2"><td>
+tst <i>rd,rf</i> </td><td> Testa bits (E-lógico sem atribuição) registrador com registrador  </td><td align="center"> NZ <br> (C,V  &#8592; 0)</td>
+</tr><tr class="row1"><td>
+not <i>rd</i>                 </td><td> Negação (inverte bits) de registrador  </td><td align="center"> NZ <br> (C,V  &#8592; 0)</td>
+</tr>
+</table>
+
+					<h3>Instruções de deslocamento e rotação</h3>
+					<table cellpadding="0" cellspacing="0" border="0" width="100%" class="table">
+						<!-- table header -->
+						<tr class="table_header">
+							<td valign="middle" align="left" width="20%">Comando</td>
+							<td valign="middle" align="left">Operação</td>
+							<td valign="middle" align="center" width="15%">Flags</td>
+<tr class="row1"><td>
+shl <i>rd,imd5</i> </td><td> Deslocamento para a esquerda, endereçamento imediato  </td><td align="center"> CNZ <br> (V  &#8592; 0)</td>
+</tr><tr class="row2"><td>
+shl <i>rd,rf</i> </td><td> Deslocamento para a esquerda, por registrador  </td><td align="center"> CNZ  <br> (V  &#8592; 0) </td>
+</tr><tr class="row1"><td>
+shr <i>rd,imd5</i> </td><td> Deslocamento para a direita, endereçamento imediato  </td><td align="center"> CNZ  <br> (V  &#8592; 0) </td>
+</tr><tr class="row2"><td>
+shr <i>rd,rf</i> </td><td> Deslocamento para a direita, por registrador  </td><td align="center"> CNZ  <br> (V  &#8592; 0) </td>
+</tr><tr class="row1"><td>
+sar <i>rd,imd5</i> </td><td> Deslocamento aritmético para a direita, endereçamento imediato  </td><td align="center"> CNZ  <br> (V  &#8592; 0) </td>
+</tr><tr class="row2"><td>
+sar <i>rd,rf</i> </td><td> Deslocamento aritmético para a direita, por registrador  </td><td align="center"> CNZ  <br> (V  &#8592; 0) </td>
+</tr><tr class="row1"><td>
+rol <i>rd,imd5</i> </td><td> Rotação para a esquerda, endereçamento imediato  </td><td align="center"> CNZ  <br> (V  &#8592; 0) </td>
+</tr><tr class="row2"><td>
+rol <i>rd,rf</i> </td><td> Rotação para a esquerda, por registrador  </td><td align="center"> CNZ  <br> (V  &#8592; 0) </td>
+</tr><tr class="row1"><td>
+ror <i>rd,imd5</i> </td><td> Rotação para a direita, endereçamento imediato  </td><td align="center"> CNZ  <br> (V  &#8592; 0) </td>
+</tr><tr class="row2"><td>
+ror <i>rd,rf</i> </td><td> Rotação para a direita, por registrador  </td><td align="center"> CNZ  <br> (V  &#8592; 0) </td>
+</tr><tr class="row1"><td>
+rcl <i>rd,imd5</i> </td><td> Rotação com vai-um para a esquerda, endereçamento imediato  </td><td align="center"> CNZ  <br> (V  &#8592; 0) </td>
+</tr><tr class="row2"><td>
+rcl <i>rd,rf</i> </td><td> Rotação com vai-um para a esquerda, por registrador  </td><td align="center"> CNZ  <br> (V  &#8592; 0) </td>
+</tr><tr class="row1"><td>
+rcr <i>rd,imd5</i> </td><td> Rotação com vai-um para a direita, endereçamento imediato  </td><td align="center"> CNZ  <br> (V  &#8592; 0) </td>
+</tr><tr class="row2"><td>
+rcr <i>rd,rf</i> </td><td> Rotação com vai-um para a direita, por registrador  </td><td align="center"> CNZ  <br> (V  &#8592; 0) </td>
+</tr>
+</table>
+
+					<h3>Instruções de desvio</h3>
+					<table cellpadding="0" cellspacing="0" border="0" width="100%" class="table">
+						<!-- table header -->
+						<tr class="table_header">
+							<td valign="middle" align="left" width="20%">Comando</td>
+							<td valign="middle" align="left">Operação</td>
+							<td valign="middle" align="center"width="15%">Flags</td>
+</tr><tr class="row1"><td>
+jmp <i>rótulo</i> </td><td> desvio incondicional  </td><td align="center"> -- </td>
+</tr><tr class="row2"><td>
+jmp <i>rd</i> </td><td> desvio incondicional, por registrador  </td><td align="center"> -- </td>
+</tr><tr class="row1"><td>
+jc <i>rótulo_perto</i> </td><td> desvia se vai-um (menor sem sinal)  </td><td align="center"> -- </td>
+ </tr><tr class="row2"><td>
+jnc <i>rótulo_perto</i> </td><td>  desvia se não vai-um (maior ou igual sem sinal) </td><td align="center"> -- </td>
+ </tr><tr class="row1"><td>
+jz <i>rótulo_perto</i> </td><td>  desvia se zero </td><td align="center"> -- </td>
+ </tr><tr class="row2"><td>
+jnz <i>rótulo_perto</i> </td><td>  desvia se diferente de zero </td><td align="center"> -- </td>
+ </tr><tr class="row1"><td>
+jo <i>rótulo_perto</i> </td><td>  desvia se overflow (com sinal)</td><td align="center"> -- </td>
+ </tr><tr class="row2"><td>
+jno <i>rótulo_perto</i> </td><td>  desvia se não overflow (com sinal)</td><td align="center"> -- </td>
+ </tr><tr class="row1"><td>
+js <i>rótulo_perto</i> </td><td>  desvia se sinal igual a um </td><td align="center"> -- </td>
+ </tr><tr class="row2"><td>
+jns <i>rótulo_perto</i> </td><td>  desvia se sinal igual a zero </td><td align="center"> -- </td>
+ </tr><tr class="row1"><td>
+jl <i>rótulo_perto</i> </td><td>  desvia se menor (com sinal) </td><td align="center"> -- </td>
+ </tr><tr class="row2"><td>
+jle <i>rótulo_perto</i> </td><td>  desvia se menor ou igual (com sinal) </td><td align="center"> -- </td>
+ </tr><tr class="row1"><td>
+jg <i>rótulo_perto</i> </td><td>  desvia se maior (com sinal) </td><td align="center"> -- </td>
+ </tr><tr class="row2"><td>
+jge <i>rótulo_perto</i> </td><td>  desvia se maior ou igual (com sinal) </td><td align="center"> -- </td>
+ </tr><tr class="row1"><td>
+ja <i>rótulo_perto</i> </td><td>  desvia se acima (maior sem sinal) </td><td align="center"> -- </td>
+ </tr><tr class="row2"><td> 
+jna <i>rótulo_perto</i> </td><td>  desvia se não acima (menor ou igual sem sinal) </td><td align="center"> -- </td>
+</tr>
+</table>
+
+
+					<h3>Instruções que usam a pilha</h3>
+					<table cellpadding="0" cellspacing="0" border="0" width="100%" class="table">
+						<!-- table header -->
+						<tr class="table_header">
+							<td valign="middle" align="left">Comando</td>
+							<td valign="middle" align="left">Operação</td>
+							<td valign="middle" align="center">Flags</td>
+</tr><tr class="row1"><td>
+push <i>rf</i> </td><td> Empilha registrador </td><td align="center"> -- </td>
+</tr><tr class="row2"><td>
+pop <i>rd</i> </td><td> Desempilha registrador </td><td align="center"> -- </td>
+</tr><tr class="row1"><td>
+call <i>rótulo</i> </td><td> Chamada de procedimento  </td><td align="center"> -- </td>
+</tr><tr class="row2"><td>
+call <i>rf</i> </td><td> Chamada de procedimento, por registrador  </td><td align="center"> -- </td>
+</tr><tr class="row1"><td>
+ret      </td><td> Retorno de procedimento </td><td align="center"> -- </td>
+</tr>
+</table>
+
+					<h3>Instruções de entrada e saída</h3>
+					<table cellpadding="0" cellspacing="0" border="0" width="100%" class="table">
+						<!-- table header -->
+						<tr class="table_header">
+							<td valign="middle" align="left" width="20%">Comando</td>
+							<td valign="middle" align="left">Operação</td>
+							<td valign="middle" align="center"width="15%">Flags</td>
+</tr><tr class="row1"><td>
+in <i>rd,porta</i> </td><td> Leitura de porta de E/S, endereçamento imediato </td><td align="center"> -- </td>
+</tr><tr class="row2"><td>
+in <i>rd,rf </td><td> Leitura de porta de E/S, por registrador </td><td align="center"> -- </td>
+</tr><tr class="row1"><td>
+inb <i>rd,porta</i> </td><td> Leitura de byte de porta de E/S, imediato </td><td align="center"> -- </td>
+</tr><tr class="row2"><td>
+inb <i>rd,rf</i> </td><td> Leitura de byte de porta de E/S, por registrador </td><td align="center"> -- </td>
+</tr><tr class="row1"><td>
+out <i>porta,rf</i> </td><td> Escrita em porta de E/S, endereçamento imediato </td><td align="center"> -- </td>
+</tr><tr class="row2"><td>
+out <i>rd,rf</i> </td><td> Escrita em porta de E/S, por registrador </td><td align="center"> -- </td>
+</tr><tr class="row1"><td>
+outb <i>porta,rf</i> </td><td> Escrita em byte de porta de E/S, endereçamento imediato </td><td align="center"> -- </td>
+</tr><tr class="row2"><td>
+outb <i>rd,rf</i> </td><td> Escrita em byte de porta de E/S, por registrador </td><td align="center"> -- </td>
+</tr>
+</table>
+
+					<h3>Instruções diversas</h3>
+					<table cellpadding="0" cellspacing="0" border="0" width="100%" class="table">
+						<!-- table header -->
+						<tr class="table_header">
+							<td valign="middle" align="left" width="20%">Comando</td>
+							<td valign="middle" align="left">Operação</td>
+							<td valign="middle" align="center"width="15%">Flags</td>
+
+</tr><tr class="row1"><td>
+pushf      </td><td> Empilha flags</td><td align="center"> -- </td>
+</tr><tr class="row2"><td>
+popf       </td><td> Desempilha flags </td><td align="center"> todas </td>
+</tr><tr class="row1"><td>
+sys </td><td> Chamada de sistema </td><td align="center"> IS </td>
+</tr><tr class="row2"><td>
+iret       </td><td> Retorno de interrupção </td><td align="center"> todas </td>
+</tr><tr class="row1"><td>
+clc </td><td> Desliga vai-um  </td><td align="center"> C &#8592; 0 </td>
+</tr><tr class="row2"><td>
+stc </td><td> Liga vai-um  </td><td align="center"> C &#8592; 1 </td>
+</tr><tr class="row1"><td>
+cli </td><td> Desabilita interrupções </td><td align="center"> I &#8592; 0 </td>
+</tr><tr class="row2"><td>
+sti </td><td> Habilita interrupções </td><td align="center"> I &#8592; 1 </td>
+</tr><tr class="row1"><td>
+wait         </td><td> Hiberna o processador </td><td align="center"> I &#8592; 0 </td>
+</tr><tr class="row2"><td>
+drop         </td><td> Dispensa privilégios </td><td align="center"> S &#8592; 0 </td>
+</tr><tr class="row1"><td>
+hlt         </td><td> Para o processador </td><td align="center"> -- </td>
+</tr>
+</table>
+
+
+				</div>
+
+	    </div>
+			<!-- here ends header + content ( topcontent ) -->
+			
+	    <!-- footer -->
+			<div id="footer">
+			<div id="footer_bg">
+			
+				<!-- right bottom link -->
+				<div id="design">
+				  <a href="http://www.ic.unicamp.br">Instituto de Computação</a>
+				</div>
+				
+				<!-- copyright -->
+				<p>
+				  <a href="http://www.unicamp.br">Universidade Estadual de Campinas (UNICAMP)</a>
+				</p>
+			
+			</div>
+			</div>
+</div>
+</body>
+</html>

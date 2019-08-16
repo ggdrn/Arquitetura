@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>Linguagens de Montagem - Documentos</title>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8"> 
+    <!--link rel="stylesheet" type="text/css" href="http://www.ic.unicamp.br/~ranido/livrolm/css/style.css" /-->
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+
+</head>
+<body>
+    <div id="wrap">
+	    <div id="top_content">
+	        <div id="header">
+
+						<!-- rightheader -->
+						<div id="rightheader">
+								<p><br/>Livro da Série SBC/Editora Campus
+								</p> 
+						</div>
+						
+						<!-- topheader -->
+						<div id="topheader">
+							<h1 id="title">
+								<a href="#">Linguagens de Montagem</a>
+								<!--br/><span>&nbsp;</span-->
+							</h1>
+						</div>
+							
+						<!-- navigation -->
+						<div id="navigation">
+							<ul>
+								<li><a href="http://www.ic.unicamp.br/~ranido/livrolm">Principal</a></li>
+								<li><a href="http://www.ic.unicamp.br/~ranido/livrolm/ferramentas/">Ferramentas</a></li>
+								<li><a href="http://www.ic.unicamp.br/~ranido/livrolm/documentos/">Documentos</a></li>
+								<li><a href="http://www.ic.unicamp.br/~ranido/livrolm/transparencias/">Transparências</a></li>
+								<li><a href="http://www.ic.unicamp.br/~ranido/livrolm/autor.html">Sobre o autor</a></li>
+							</ul>	         
+						</div>
+						
+				</div>
+				<!-- header ends here -->
+				<div id="content">
+					<p id="whereami">
+						<a href="../">Principal</a> &gt;
+						<a href="index.html">Documentos</a> &gt
+						Montador para LEG
+					</p>
+					<h1>Montador para LEG</h1>
+<p>O montador <span class="ttt">lasm</span> é um montador simples de dois passos para
+o processador didático LEG, que gera um
+arquivo executável, ou seja, não há necessidade de ligador. Um
+<it>símbolo</it> é uma sequência de letras, dígitos ou o caractere `_',
+que se inicia com uma letra. Comentários se iniciam com o caractere
+`@' e se estendem ao final da linha corrente.
+
+<p>O montador
+aceita as diretivas e instruções descritas do LEG no livro. 
+O montador também reconhece a instrução
+especial HLT, cujo nome é uma abreviação de
+<it>halt</it>, (que em inglês significa parar). A instrução
+HLT não existe em processadores reais, mas é útil para
+depurar programas usando um simulador.
+
+<p>O montador <it>lasm</it> deve ser utilizado usando a seguinte linha de comando
+em uma janela de tipo <it>Terminal</it>
+(ou <it>Console</it>):
+
+<code>$ lasm [-o arq_exec] [-p arq_form] [-l arq_list] arq_fonte
+</code>
+
+onde <span class="ttt">arq_fonte</span> é o arquivo com o texto do programa.
+Os argumentos opcionais são:
+
+<ul class="green">
+<li> <span class="ttt">-o arq_exec</span><br> 
+nomeia o arquivo
+  executável <span class="ttt">arq_exec</span>. Se não fornecido, o arquivo
+  executável é nomeado <span class="ttt">a.out</span>.
+<li> <span class="ttt">-p arq_form</span><br> 
+formata o arquivo fonte
+  e coloca o resultado no arquivo de nome <span class="ttt">arq_form</span>.
+<li> <span class="ttt">-l arq_list</span><br>
+ gera um arquivo de
+  listagem, contendo o código gerado em hexadecimal, juntamente com o
+  arquivo fonte, e coloca o resultado no arquivo de nome <span class="ttt">arq_list</span>.
+</ul>
+
+  
+<p>Por exemplo, a linha de comando 
+<code>$ lasm -o alarme -l alarme.lst alarme.sl
+</code>
+
+<p>monta programa cujo arquivo fonte tem nome <span class="ttt">alarme.sl</span>, gerando o arquivo objeto
+de nome <span class="ttt">alarme</span> e um arquivo texto de nome  <span class="ttt">alarme.lst</span>
+contendo a listagem do programa (mostrando o código gerado, em hexadecimal,
+a cada linha do programa).
+
+<h2>Acesso ao montador</h3>
+
+<p>O montador <span class="ttt">lasm</span>  pode ser encontrado na página
+<a href="../ferramentas/leg.html">Ferramentas LEG</a>.
+
+</p>
+<p>
+
+
+				</div>
+
+	    </div>
+			<!-- here ends header + content ( topcontent ) -->
+			
+	    <!-- footer -->
+			<div id="footer">
+			<div id="footer_bg">
+			
+				<!-- right bottom link -->
+				<div id="design">
+				  <a href="http://www.ic.unicamp.br">Instituto de Computação</a>
+				</div>
+				
+				<!-- copyright -->
+				<p>
+				  <a href="http://www.unicamp.br">Universidade Estadual de Campinas (UNICAMP)</a>
+				</p>
+			
+			</div>
+			</div>
+</div>
+</body>
+</html>

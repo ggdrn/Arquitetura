@@ -1,0 +1,563 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>Linguagens de Montagem - Manual dos simuladores LEG e ARM</title>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8"> 
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+</head>
+<body>
+    <div id="wrap">
+	    <div id="top_content">
+	        <div id="header">
+
+						<!-- rightheader -->
+						<div id="rightheader">
+								<p><br/>Livro da Série SBC/Editora Campus
+								</p> 
+						</div>
+						
+						<!-- topheader -->
+						<div id="topheader">
+							<h1 id="title">
+								<a href="#">Linguagens de Montagem</a>
+								<!--br/><span>&nbsp;</span-->
+							</h1>
+						</div>
+							
+						<!-- navigation -->
+						<div id="navigation">
+						        <ul>
+								<li><a href="http://www.ic.unicamp.br/~ranido/livrolm">Principal</a></li>
+								<li><a href="http://www.ic.unicamp.br/~ranido/livrolm/ferramentas/">Ferramentas</a></li>
+								<li><a href="http://www.ic.unicamp.br/~ranido/livrolm/documentos/">Documentos</a></li>
+								<li><a href="http://www.ic.unicamp.br/~ranido/livrolm/transparencias/">Transparências</a></li>
+								<li><a href="http://www.ic.unicamp.br/~ranido/livrolm/autor.html">Sobre o autor</a></li>
+							</ul>	         
+						</div>
+						
+				</div>
+				<!-- header ends here -->
+				<div id="content">
+					<p id="whereami">
+						<a href="../">Principal</a> &gt;
+						<a href="index.html">Documentos</a> &gt;
+						Manual dos simuladores LEG e ARM
+					</p>
+					<h1>Manual dos simuladores LEG e ARM</h1>
+
+<p>Esta página apresenta as funcionalidades dos
+simuladores LEG (<span class="ttt">legsim</span>) e ARM
+(<span class="ttt">armsim</span>), com uma descrição sucinta dos
+comandos disponíveis ao usuário.
+
+<p>O simulador deve ser iniciado em uma janela de tipo <it>Terminal</it>
+(ou <i>Console</i>), com a seguinte linha de comando:
+
+<code><span class="blue">$</span> xxxsim [-c] [-d arq_disp]  [-l arq_exec] [-lc arq_com] [-nw]
+</code>
+
+onde <span class="ttt">xxxsim</span> pode ser <span class="ttt">armsim</span> ou <span class="ttt">legsim</span>,
+respectivamente os simuladores para os processadores ARM e LEG.
+Os argumentos opcionais são:
+
+<ul class="green">
+<li> <span class="ttt">-c</span><br> 
+  inicia também um painel de console, para entrada e saída de dados, descrito a seguir.
+<li> <span class="ttt">-d arq_disp</span><br>
+  usa o arquivo <span class="ttt">arq_disp</span> para instalar os dispositivos de E/S especificados.
+<li> <span class="ttt">-l arq_exec</span><br>
+  carrega na memória o arquivo <span class="ttt">arq_exec</span>.
+<li> <span class="ttt">-lc arq_com</span><br>
+  lê um arquivo de comandos <span class="ttt">arq_com</span> e executa os comandos especificados.
+<li> <span class="ttt">-nw</span><br>
+    não utiliza recursos gráficos do Terminal (para terminais sem esses recursos; apenas
+      a forma de visualização de comandos para execução passo-a-passo é alterada).
+</ul>
+
+<h2>Memória</h2>
+
+<p>Os simuladores <span class="ttt">legsim</span> e <span class="ttt">armsim</span> têm 512 KiB de memória disponível, do endereço 0 ao endereço <span class="ttt">0x7ffff</span>.
+No simulador <span class="ttt">armsim</span>, qualquer endereço maior ou igual a <span class="ttt">0x80000</span> pode ser alocado para uma porta de E/S.
+
+<h2>Convenções</h2>
+
+<p>Durante a execução, qualquer comando pode ser interrompido pressionando
+<span class="ttt"><CTRL>-C</span> (tecla <span class="ttt">Control</span> e tecla <span class="ttt">C</span> do
+teclado pressionadas ao mesmo tempo). O símbolo `.' (ponto) é usado
+para indicar encerramento do comando em comandos de entrada de dados.
+Todos os números são interpretados como hexadecimais; por exemplo o
+valor 100 indica <span class="ttt">0x100</span>. Além disso, na entrada de dados para o
+simulador, os números devem iniciar-se com um dígito entre 0 e 9; por
+exemplo deve-se usar <span class="ttt">0ff</span>, e não simplesmente <span class="ttt">ff</span>, para representar o valor <span class="ttt">0xff</span>.
+
+<h2>Ajuda</h2>
+
+<p>Digite `?' na linha de comando do simulador para listar os comandos disponíveis. Uma
+saída como a abaixo é mostrada:
+
+<code><span class="blue">armsim - ARM simulator(v1.0)
+R. Anido/IC-Unicamp
+
+armsim></span> ?
+
+<span class="blue">CARACTERES ESPECIAIS
+.       encerra entrada de dados
+(ctr-c) interrompe execução de qualquer comando
+
+COMANDOS DISPONÍVEIS:
+b   breakpoints                    |  l   carrega arquivo
+c   constantes e símbolos          |  q   termina execução
+d   mostra  memória                |  r   inspeciona registradores
+f   preenche memória               |  s   passo a passo
+g   go                             |  t   trace
+i   inspeciona memória             |  u   unassemble
+j   jornal                         |  x   mostra estado
+k   mostra ciclos                  |
+
+Para saber mais sobre cada comando, digite a letra correspondente ao
+comando seguida de `?'.</span>
+</code>
+
+<h2>Aritmética simples</h2>
+
+<p>Além dos comandos descritos a seguir, o simulador também permite
+realizar somas e subtrações entre dois números hexadecimais, digitando
+a operação desejada diretamente na linha de comando do simulador.
+
+<p>  
+Exemplos:
+<ul class="green">
+<li> <span class="ttt">1000 + 1fa</span> <br> 
+mostra o resultado da adição <span class="ttt">0x1000</span> + <span class="ttt">0x1fa</span>.
+<li> <span class="ttt">1000 - 1fa</span> <br> 
+mostra o resultado da subtração <span class="ttt">0x1000</span> - <span class="ttt">0x1fa</span>.
+</ul>
+
+
+<h2>Comando b (breakpoint)</h2>
+
+<p>O comando <span class="ttt">b</span> permite definir pontos de parada (breakpoints)
+para endereços específicos da memória.
+
+<ul class="green">
+<li> <span class="ttt">b</span> <br> 
+mostra breakpoints correntes.
+
+<li> <span class="ttt">br ender_ini ender_fim [contador]</span> <br> 
+associa um breakpoint para cada <span class="ttt">contador</span> acessos para leitura no intervalo
+de endereços
+<span class="ttt">ender_ini</span> a <span class="ttt">ender_fim</span>.
+<span class="ttt">contador</span> é um número hexadecimal; se não especificado o valor é 1.
+
+<li>
+     <span class="ttt">bw ender_ini ender_fim [contador]</span> <br> 
+associa um breakpoint para cada <span class="ttt">contador</span> acessos para escrita no intervalo
+de endereços
+<span class="ttt">ender_ini</span> a <span class="ttt">ender_fim</span>.
+<span class="ttt">contador</span> é um número hexadecimal; se não especificado o valor é 1.
+
+<li>
+     <span class="ttt">bx ender_ini ender_fim [contador]</span> <br> 
+associa um breakpoint para cada <span class="ttt">contador</span> acessos para execução no intervalo
+de endereços
+<span class="ttt">ender_ini</span> a <span class="ttt">ender_fim</span>.
+<span class="ttt">contador</span> é um número hexadecimal; se não especificado o valor é 1.
+
+<li>
+<span class="ttt">br ~</span>ender <br> 
+<span class="ttt">bw ~</span>ender <br> 
+<span class="ttt">bx ~</span>ender <br> 
+remove breakpoint do endereço <span class="ttt">ender</span>.
+
+<li> <span class="ttt">b ~</span> <br> 
+remove todos os breakpoints.
+
+</ul>
+
+<p>
+  
+Exemplos:
+
+<ul class="green">
+
+<li> <span class="ttt">br</span> <br> 
+mostra breakpoints de acesso de leitura correntes.
+
+<li> <span class="ttt">bx 2af2</span> <br> 
+define breakpoint de execução no endereço <span class="ttt">0x2af2</span>, para cada execução.
+
+<li> <span class="ttt">bw tabela tabela+4 10</span> <br> 
+define breakpoint no intervalo de endereços <span class="ttt">tabela</span> até <span class="ttt">tabela+4</span>, para cada 10
+acessos de escrita.
+
+<li> <span class="ttt">bw ~</span>1000 <br> 
+remove breakpoint de acesso de escrita no endereço <span class="ttt">0x1000</span>.
+
+<li> <span class="ttt">br ~</span> <br> 
+remove todos os breakpoints.
+</ul>
+
+<h2>Comando c (examina constantes)</h2>
+
+<p>O comando <span class="ttt">c</span> permite examinar as constantes importadas
+do arquivo executável (em geral, rótulos do programa, repassados pelo montador), ou definir e modificar
+novas constantes.
+
+<ul class="green">
+<li> <span class="ttt">c</span> <br> 
+mostra todas as constantes e símbolos conhecidos.
+
+<li> <span class="ttt">c nome</span> <br> 
+mostra o endereço associado à constante ou símbolo <span class="ttt">nome</span>.
+
+<li> <span class="ttt">c nome ender</span> <br> 
+atribui o endereço <span class="ttt">ender</span> à constante ou símbolo <span class="ttt">nome</span>.
+</ul>
+
+<p>  
+Exemplos:
+
+<ul class="green">
+<li> <span class="ttt">c inicio</span> <br> 
+mostra o endereço do rótulo <span class="ttt">inicio</span>.
+
+<li> <span class="ttt">c volta 2020</span> <br> 
+associa o símbolo <span class="ttt">volta</span> ao valor <span class="ttt">0x2020</span>.
+
+</ul>
+
+<h2>Comando d (display memory)</h2>
+
+<p>O comando <span class="ttt">d</span> permite examinar o conteúdo da memória.
+
+<ul class="green">
+<li> <span class="ttt">d ender_ini [contador]</span> <br> 
+mostra o conteúdo de <span class="ttt">contador</span> posições de memória a partir de
+<span class="ttt">ender_ini</span>;
+<span class="ttt">contador</span> é um número hexadecimal, cujo default é <span class="ttt">0x80</span> (128 decimal).
+
+</ul>
+
+<p>  
+Exemplos:
+
+<ul class="green">
+<li> <span class="ttt">d 2100 300</span> <br> 
+mostra a memória a partir do endereço  <span class="ttt">0x2100</span> até 
+o endereço <span class="ttt">0x2400</span> (<span class="ttt">0x2100</span>+<span class="ttt">0x300</span>).
+
+<li> <span class="ttt">d tabela</span> <br> 
+mostra 128 bytes a partir do endereço <span class="ttt">tabela</span>, onde <span class="ttt">tabela</span> é uma
+constante conhecida.
+</ul>
+
+<h2>Comando f (fill memory)</h2>
+
+<p>O comando <span class="ttt">f</span> é útil para preencher extensas regiões de memória com
+um dado valor (por exemplo, zerar uma região de memória).
+
+<ul class="green">
+<li> <span class="ttt">f ender_ini ender_fim valor_byte</span> <br> 
+
+preenche a memória de <span class="ttt">ender_ini</span> até <span class="ttt">ender_fim</span> com bytes de valor <span class="ttt">valor_byte</span>.<br>
+
+<li> <span class="ttt">fw ender_ini ender_fim valor_palavra</span> <br> 
+preenche a memória de <span class="ttt">ender_ini</span> até <span class="ttt">ender_fim</span> com palavras de valor <span class="ttt">valor_palavra</span>.
+</ul>
+
+<p>  
+Exemplos:
+
+<ul class="green">
+<li> <span class="ttt">fw 2200 2400 0aa55</span> <br> 
+preenche a memória do endereço <span class="ttt">0x2200</span> até <span class="ttt">0x2400</span> com o valor <span class="ttt">0xaa55</span>.
+
+<li> <span class="ttt">f tabela tabela+4 0</span> <br> 
+zera bytes do endereço <span class="ttt">tabela</span> até o endereço <span class="ttt">tabela+4</span>, onde <span class="ttt">tabela</span>
+é uma constante conhecida.
+</ul>
+
+<h2>Comando g (go)</h2>
+
+<p>O comando <span class="ttt">g</span> inicia a simulação a partir de um endereço dado.
+
+<ul class="green">
+
+<li> <span class="ttt">g [ender_ini [ender_fim]]</span> <br> 
+executa de <span class="ttt">ender_ini</span> até <span class="ttt">ender_fim</span> ou até que alguma outra condição de
+parada ocorra.
+Se <span class="ttt">ender_fim</span> não está presente, executa a partir de <span class="ttt">ender_ini</span>
+até alguma condição de parada.
+Se <span class="ttt">ender_ini</span> não está presente, executa a partir do endereço de execução
+corrente  até alguma condição de parada.
+O endereço de execução
+corrente é o valor do registrador contador de programa, ou seja, 
+<span class="ttt">ip</span> no caso do LEG ou <span class="ttt">pc</span> no caso do ARM.
+Condições de parada possíveis são breakpoints, violações de
+memória ou execução de instrução inválida.
+</ul>
+
+<p>  
+Exemplos:
+
+<ul class="green">
+<li> <span class="ttt">g 4000 4100</span> <br> 
+executa a partir do endereço  <span class="ttt">0x4000</span>
+até o endereço <span class="ttt">0x4100</span>, ou até alguma condição de parada.
+
+<li> <span class="ttt">g inicio</span> <br> 
+executa a partir do endereço definido pelo símbolo <span class="ttt">inicio</span> até alguma
+condição de parada.
+
+<li> <span class="ttt">g</span> <br> 
+executa a partir do endereço de execução corrente até alguma
+condição de parada.
+</ul>
+
+
+<h2>Comando i (inspect memory)</h2>
+O comando <span class="ttt">i</span> permite alterar e verificar o conteúdo da memória.
+
+<ul class="green">
+<li> <span class="ttt">i ender_ini</span> <br> 
+
+<p>Inspeciona e permite alteração do conteúdo de bytes na memória
+sequencialmente a partir do endereço <span class="ttt">ender_ini</span>.
+<li> <span class="ttt">iw ender_ini</span> <br> 
+Inspeciona e permite alteração do conteúdo de palavras na memória
+sequencialmente a partir do endereço <span class="ttt">ender_ini</span>.
+</ul>
+
+<p>  
+Para terminar a inspeção, digite o caractere ’.’ (ponto). Exemplos:
+
+<ul class="green">
+<li> <span class="ttt">i 4000</span> <br> 
+inspeciona bytes a partir do endereço <span class="ttt">0x4000</span>
+
+<li> <span class="ttt">iw inicio</span> <br> 
+inspeciona palavras a partir do endereço definido pelo símbolo
+<span class="ttt">inicio</span>.
+</ul>
+
+<h2>Comando k (mostra ciclos)</h2>
+
+<p>O comando <span class="ttt">k</span> permite examinar ou alterar o número de ciclos
+(instruções) executados. 
+
+<ul class="green">
+<li> <span class="ttt">k</span> <br> 
+mostra o número de ciclos correntes.
+
+<li> <span class="ttt">k valor</span> <br> 
+atribui <span class="ttt">valor</span> ao número de ciclos (pode ser usado para zerar o número
+de ciclos antes de uma execução).
+</ul>
+
+<p>
+  
+Exemplos:
+
+<ul class="green">
+<li> <span class="ttt">k</span> <br> 
+mostra o número de ciclos executados.
+
+<li> <span class="ttt">k 0</span> <br> 
+zera o número de ciclos executados.
+</ul>
+
+<h2>Comando j (journal)</h2>
+<p>O comando <span class="ttt">j</span> permite armazenar os comandos digitados
+em um arquivo texto (jornal), que pode ser posteriormente utilizado
+para re-executar os comandos automaticamente.
+
+<ul class="green">
+<li> <span class="ttt">j nome_arquivo</span> <br> 
+Inicia o jornal, armazenando os comandos no arquivo de nome <span class="ttt">nome_arquivo</span>.
+A partir desse ponto, todos as teclas digitadas pelo usuário são armazenadas,
+possibilitando a re-execução automática dos comandos através do comando <span class="ttt">lc</span>.
+
+<li> <span class="ttt">j ~</span> <br> 
+Termina o jornal, fechando o arquivo corrente.
+
+</ul>
+
+<p>  
+Exemplo:
+
+<ul class="green">
+<li> <span class="ttt">j teste1.sh</span> <br> 
+inicia o jornal, armazenando as teclas digitadas no arquivo <span class="ttt">teste1.sh</span>.
+</ul>
+
+<h2>Comando l (load program)</h2>
+<p>O comando <span class="ttt">l</span> carrega um arquivo executável preparado pelo
+montador na memória do simulador.
+
+<ul class="green">
+<li> <span class="ttt">l nome_arquivo</span> <br> 
+Carrega arquivo executável nome_arquivo na memória do simulador.
+</ul>
+
+<p>  
+Exemplo:
+<ul class="green">
+<li> <span class="ttt">l roteador.out</span> <br> 
+carrega arquivo <span class="ttt">roteador.out</span> na memória.
+</ul>
+
+<h2>Comando lc (load commands file)</h2>
+<p>O comando <span class="ttt">lc</span> carrega um arquivo de comandos e
+executa cada comando do arquivo. O arquivo de comandos pode ser
+gerado manualmente ou através do comando <span class="ttt">j</span>.
+
+<ul class="green">
+<li> <span class="ttt">lc nome_arquivo_comandos</span> <br> 
+Carrega e executa o arquivo de comandos de nome <br>  <span class="ttt">nome_arquivo_comandos</span>.
+</ul>
+
+<p>  
+Exemplo:
+<ul class="green">
+<li> <span class="ttt">lc teste1.sh</span> <br> 
+carrega e executa o arquivo de comandos <span class="ttt">teste1.sh</span>.
+</ul>
+
+<h2>Comando q (quit)</h2>
+
+<p>O comando <span class="ttt">q</span> termina a sessão de simulação.
+
+<ul class="green">
+<li> <span class="ttt">q</span> <br> 
+Termina a simulação.
+</ul>
+
+<h2>Comando r (inspeciona registradores)</h2>
+<p>O comando <span class="ttt">r</span> permite verificar e alterar o conteúdo de
+registradores.
+
+<ul class="green">
+<li> <span class="ttt">r</span> <br> 
+Mostra os valores de todos os registradores e flags, sem permitir
+alterações.
+<li> <span class="ttt">r reg_nome</span> <br> 
+Mostra o valor corrente e permite alteração do registrador de nome <span class="ttt">reg_nome</span>.
+Os nomes válidos são <span class="ttt">r1</span> a <span class="ttt">r15</span>,  <span class="ttt">sp</span> e
+<span class="ttt">fp</span>, além de <span class="ttt">ip</span> (para o <span class="ttt">legsim</span>) ou  <span class="ttt">pc</span> (para o <span class="ttt">armsim</span>).
+
+</ul>
+
+<p>  
+Exemplos:
+<ul class="green">
+<li> <span class="ttt">r</span> <br> 
+Mostra o valor corrente de todos os registradores.
+
+<li> <span class="ttt">r r5</span> <br> 
+Mostra o valor corrente e permite alteração do registrador <span class="ttt">r5</span>.
+</ul>
+
+<h2>Comando s (single step)</h2>
+
+<p>O comando <span class="ttt">s</span> permite a execução passo-a-passo (uma instrução
+por vez).
+
+<ul class="green">
+<li> <span class="ttt">s [ender_ini]</span> <br> 
+Executa a instrução do programa presente no endereço <span class="ttt">ender_ini</span>.
+Se <span class="ttt">ender_ini</span> não é dado, executa a instrução presente no endereço 
+dado pelo valor corrente do registrador contador de programa. 
+Se a instrução é chamada de procedimento,
+o procedimento é executado inteiramente dentro desse passo.
+
+<li> <span class="ttt">si [ender_ini]</span> <br> 
+Executa uma instrução do programa a partir do endereço <span class="ttt">ender_ini</span>.
+Se <span class="ttt">ender_ini</span> não é dado, executa a instrução presente no endereço 
+dado pelo valor corrente do registrador contador de programa. 
+Se a instrução é chamada de procedimento,
+a próxima instrução a ser executada é a primeira instrução do procedimento
+chamado (<i>step into procedure</i>).
+
+<li> <span class="ttt">so [ender_ini]</span> <br> 
+Executa a partir do endereço <span class="ttt">ender_ini</span> até retornar do procedimento corrente,
+ou seja, até executar uma instrução de retorno de procedimento
+(<i>step out procedure</i>).
+Se <span class="ttt">ender_ini</span> não é dado, executa a partir da instrução presente no endereço 
+dado pelo valor corrente do registrador contador de programa.
+</ul>
+
+<p>  
+Imediatamente após um comando <span class="ttt">s</span>, <span class="ttt">si</span> ou <span class="ttt">so</span>, pode-se
+simplesmente pressionar a tecla <span class="ttt">ENTER</span>, e o comando anterior 
+(<span class="ttt">s</span>, <span class="ttt">si</span> ou <span class="ttt">so</span>) será repetido.
+
+<p>  
+Exemplos:
+
+<ul class="green">
+<li> <span class="ttt">s 1000</span> <br> 
+Executa uma instrução, no endereço <span class="ttt">0x1000</span> e retorna o controle ao usuário.
+
+<li> <span class="ttt">so</span> <br> 
+Executa até retornar do procedimento corrente.
+</ul>
+
+<h2>Comando u (unassemble)</h2>
+
+<p>O comando <span class="ttt">u</span> permite visualizar um trecho de memória como uma
+sequência de comandos em linguagem de montagem. Em outras palavras, o comando
+<i>desmonta</i>  uma sequência de instruções, onde desmontar significa
+executar o processo inverso do montador, ou seja, transformar o código
+binário em comandos da linguagem de montagem.
+
+<ul class="green">
+<li> <span class="ttt">u ender_ini [num]</span> <br> 
+desmonta <span class="ttt">num</span> instruções a partir do endereço <span class="ttt">ender_ini</span>.
+Se <span class="ttt">num</span> não é dado, desmonta 16 instruções. 
+
+</ul>
+
+<p>  
+Exemplos:
+<ul class="green">
+<li> <span class="ttt">u 500 20</span> <br> 
+desmonta 32 instruções a partir do endereço <span class="ttt">0x500</span>.
+
+<li> <span class="ttt">u inicio</span> <br> 
+desmonta 16 instruções a partir do endereço definido pelo símbolo <span class="ttt">inicio</span>.
+</ul>
+
+<h2>Acesso aos simuladores</h3>
+
+<p>Os simuladores  <span class="ttt">legsim</span> e <span class="ttt">armsim</span> 
+podem ser encontrados na página
+<a href="../ferramentas/index.html">Ferramentas</a>.
+</p>
+
+<p>
+
+
+				</div>
+
+	    </div>
+			<!-- here ends header + content ( topcontent ) -->
+			
+	    <!-- footer -->
+			<div id="footer">
+			<div id="footer_bg">
+			
+				<!-- right botttom link -->
+				<div id="design">
+				  <a href="http://www.ic.unicamp.br">Instituto de Computação</a>
+				</div>
+				
+				<!-- copyright -->
+				<p>
+				  <a href="http://www.unicamp.br">Universidade Estadual de Campinas (UNICAMP)</a>
+				</p>
+			
+			</div>
+			</div>
+</div>
+</body>
+</html>

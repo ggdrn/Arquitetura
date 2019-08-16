@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>Linguagens de Montagem - Ferramentas ARM</title>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8"> 
+    <!--link rel="stylesheet" type="text/css" href="http://www.ic.unicamp.br/~ranido/livrolm/css/style.css" /-->
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+</head>
+<body>
+    <div id="wrap">
+	    <div id="top_content">
+	        <div id="header">
+
+						<!-- rightheader -->
+						<div id="rightheader">
+								<p><br/>Livro da Série SBC/Editora Campus
+								</p> 
+						</div>
+						
+						<!-- topheader -->
+						<div id="topheader">
+							<h1 id="title">
+								<a href="#">Linguagens de Montagem</a>
+								<!--br/><span>&nbsp;</span-->
+							</h1>
+						</div>
+							
+						<!-- navigation -->
+						<div id="navigation">
+							<ul>
+								<li><a href="http://www.ic.unicamp.br/~ranido/livrolm">Principal</a></li>
+								<li><a href="http://www.ic.unicamp.br/~ranido/livrolm/ferramentas/">Ferramentas</a></li>
+								<li><a href="http://www.ic.unicamp.br/~ranido/livrolm/documentos/">Documentos</a></li>
+								<li><a href="http://www.ic.unicamp.br/~ranido/livrolm/transparencias/">Transparências</a></li>
+								<li><a href="http://www.ic.unicamp.br/~ranido/livrolm/autor.html">Sobre o autor</a></li>
+							</ul>	         
+						</div>
+						
+				</div>
+				<!-- header ends here -->
+				<div id="content">
+					<p id="whereami">
+						<a href="../">Principal</a> &gt;
+						<a href="index.html">Ferramentas</a> &gt;
+						<a href="#">Ferramentas ARM</a>
+					</p>
+					<h1>Ferramentas ARM</h1>
+
+
+					<p>Para o processador ARM está disponível o simulador (armsim), escrito em Java (verifique que seu computador tem a versão mais recente de Java).
+					  <h2>Versão</h2>
+					  <p>A versão corrente das ferramentas ARM, disponibilizadas nesta página,  são:
+					    <ul class="green">
+					      <li> <span class="ttt">armsim</span>: versão 1.0
+					    </ul>
+
+					  <h2>Instruções</h2>
+					  <ol>
+					    <li> baixe o arquivo <a href="arm.zip">arm.zip</a>.
+					    <li> descomprima o arquivo (obtendo a pasta <i>arm</i>);</li>
+					    <li> a maneira mais fácil de usar o simulador é criar o seu arquivo de programa fonte
+					      na mesma pasta que contém a pasta <i>arm</i>. Alternativamente, para maior comodidade, você pode colocar a pasta
+					      <i>arm</i> na sua <i>path</i> de execução. Por exemplo,
+					      coloque a pasta arm em ~/bin e coloque ~/bin/arm na sua <i>path</i></li>
+					    <li> para executar o simulador, abra uma janela de terminal e digite o comando <pre>arm/armsim -h</pre>
+					      para ajuda sobre os possíveis argumentos (se você colocou a pasta <i>arm</i> em sua <i>path</i>, basta
+					    digitar <span class="ttt">armsim -h</span>).
+					    </ol>
+					    <p>Obs: as instruções acima são para Linux, MacOs e Windows com cygwin.
+					      
+
+					   <h2>Montadores e ligadores</h2>
+					   O simulador armsim lê arquivos executáveis no formato ELF, normalmente produzidos por montadores/ligadores ARM comerciais e de domínio
+					   público. Para comodidade, a pasta <span class="ttt">arm</span> obtida como descrito nas Instruções acima inclui montadores e ligadores 
+					   para Arm do pacote "gcc-arm-none-ebi" nas versões 
+					   Linux, Windows e MacOS, com os seguintes nomes:
+
+					   <p><ul class="green">
+					     <li>Linux: <span class="ttt">arm-none-eabi-linux-as</span> (montador) e <span class="ttt">arm-none-eabi-linux-ld</span> (ligador)
+					     <li>Windows: <span class="ttt">arm-none-eabi-win-as</span> (montador) e <span class="ttt">arm-none-eabi-win-ld</span> (ligador)
+					     <li>MacOS: <span class="ttt">arm-none-eabi-mac-as</span> (montador) e <span class="ttt">arm-none-eabi-mac-ld</span> (ligador)
+					      </ul> 
+					     
+					     <p>Por exemplo, para montar um programa-fonte armazenado em um arquivo de nome teste.s no sistema 
+					       Linux, considerando que o programa-fonte está na pasta arm, como descrito acima, abra uma janela de terminal e digite os comandos
+<pre>
+arm/arm-none-eabi-linux-as -o teste.o teste.s
+arm/arm-none-eabi-linux-ld -o teste teste.o
+</pre>
+
+                                             <p>Alternativamente, você pode instalar em seu computador o pacote "gcc-arm-none-eabi", que inclui o montador e o ligador ARM,
+além de muitas outras ferramentas, inclusive o compilador gcc para ARM. Para instalar esse pacote no sistema operacional Linux, abra uma janela de terminal e digite:
+
+<pre>
+sudo apt-get install gcc-arm-none-eabi
+</pre>
+ 
+
+					      <h2>Exemplos</h2>
+					      <ul class="green">
+						<li><a href="exemplos_arm.zip">Exemplos de programas em linguagem de montagem</a>
+						<li><a href="exemplos_arm_gcc.zip">Exemplos de programas em C</a> (veja também <a href="../documentos/manual_arm_gcc.html">Uso do simulador ARM com programas em C</a>)
+						</ul>
+
+
+				</div>
+
+	    </div>
+			<!-- here ends header + content ( topcontent ) -->
+			
+	    <!-- footer -->
+			<div id="footer">
+			<div id="footer_bg">
+			
+				<!-- right bottom link -->
+				<div id="design">
+				  Instituto de Computação
+				</div>
+				
+				<!-- copyright -->
+				<p>
+				  Universidade Estadual de Campinas (UNICAMP)
+				</p>
+			
+			</div>
+			</div>
+</div>
+</body>
+</html>
